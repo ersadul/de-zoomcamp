@@ -1,0 +1,11 @@
+after create credentials  cut the credentials and put it in the terraform folder rename into "credentials.json"
+
+add this in provider block
+credentials = file("credentials.json") 
+
+the block looks like this
+provider "google" {
+  project = var.project
+  region = var.region
+  credentials = file("credentials.json")  # Use this if you do not want to set env-var GOOGLE_APPLICATION_CREDENTIALS
+}
