@@ -64,9 +64,10 @@ Note: it's not a typo, it's `tip` , not `trip`
 - Long Island City/Queens Plaza ✅
 
 
-<details>
-<summary>answers script</summary>
+<details open>
+<summary>Answers code</summary>
 quesion 1<br>
+
 ```
 $ docker build --help
 ```
