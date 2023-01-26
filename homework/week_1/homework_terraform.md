@@ -5,9 +5,10 @@ After updating the main.tf and variable.tf files run:
 ```
 terraform apply
 ```
-<details>
+
+<details open>
 <summary>my output</summary>
-Paste the output of this command into the homework submission form.
+
 ```
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
 following symbols:

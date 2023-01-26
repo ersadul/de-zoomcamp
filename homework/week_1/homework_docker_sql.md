@@ -8,7 +8,9 @@ and practice with Docker and SQL
 
 Run the command to get information on Docker 
 
-```docker --help```
+```
+docker --help
+```
 Now run the command to get help on the "docker build" command
 Which tag has the following text? - *Write the image ID to the file* 
 - `--imageid string`
@@ -62,9 +64,10 @@ Note: it's not a typo, it's `tip` , not `trip`
 - Long Island City/Queens Plaza ✅
 
 
-<details>
-<summary>answers script</summary>
+<details open>
+<summary>Answers code</summary>
 quesion 1<br>
+
 ```
 $ docker build --help
 ```
