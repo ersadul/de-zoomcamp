@@ -1,7 +1,7 @@
 ## Week 2: Workflow Orchestration
 
 <details open>
-<summary>**How to**</summary>
+<summary>How to</summary>
 
 ### Virtual env
 **create virtual env**
@@ -60,6 +60,7 @@ prefect config set PREFECT_API_URL="https://api.prefect.cloud/api/accounts/[ACCO
 ```
 
 </details>
+
 ### Data Lake (GCS)
 
 * What is a Data Lake
