@@ -1,7 +1,13 @@
+Create container to run postgre database and pgAdmin. And then, try to ingest data into it
+
+In this case, I directly address the csv file as a url to ingest data, because I thought pandas can't read csv.gz file extension. But in the end, it still works
+<details>
+<summary>Scripts</summary>
+
 **Link data and schema**:
 
-https://github.com/DataTalksClub/nyc-tlc-data
-https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf
+- https://github.com/DataTalksClub/nyc-tlc-data
+- https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf
 
 **Run a postgres in docker container with volumes**
 ```
@@ -121,3 +127,4 @@ python ingest_data.py \
     --table_name=green_taxi_trips \
     --url="green_tripdata_2019-01.csv"
 ```
+</details>

@@ -1,4 +1,9 @@
-# Run services in google cloud VM
+Prepare all the tools we need like docker, postgre, pgadmin, and terraform to meet the prerequisite tools that we will use in this zoomcamp. in this zoomcamp we are using [ny_taxi data](https://github.com/DataTalksClub/nyc-tlc-data) as the main data source
+
+
+<details>
+<summary>Run services in google cloud VM</summary>
+
 **Links**:
 
 https://cloud.google.com/compute/docs/connect/create-ssh-keys
@@ -124,7 +129,7 @@ mkdir .gc
 cd .gc/
 put credentials.json
 ```
-**Authenticate our cli**
+**Authenticate our cli** 
 
 1. export variable 
 ```
@@ -135,7 +140,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/credentials.json
 gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
 ```
 
-***VM credentials using file***
+***VM credentials using file*** *(alt: if you want to auth the terraform with your credentials and put credentials file in the same folder with tf files)*
 
 after create credentials, put the credentials in the terraform folder rename into "credentials.json" (it's up to you btw)
 
@@ -151,3 +156,4 @@ provider "google" {
   credentials = file("credentials.json")
 }
 ```
+</details>
