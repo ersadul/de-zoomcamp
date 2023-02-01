@@ -1,54 +1,61 @@
 ## Week 2: Workflow Orchestration
 
 <details open>
-<summary>**How to**</summary>
+<summary>How to</summary>
 
 ### Virtual env
-**create virtual env**
+#### Create virtual env
 ```
 python -m venv .venv
 ```
-**activate venv**
+#### Activate venv
 ```
 source .venv/Scripts/activate
 ```
-**install dependencies from file**
+#### Install dependencies from file
 ```
 pip install -r requirements.txt
 ```
 
 ### Deploy
-**create deployment**
+you can explore more about flow deployment in Prefect [docs](https://docs.prefect.io/concepts/deployments/)
+
+#### Create deployment
 ```
 prefect deployment build flows/03_deployments/parameterized_flow.py:etl_parent_flow -n "Parameterized ETL"
 ```
-**apply deployment to server (local)**
+deploy a flow with 'parameterized_flow.py' file to run 'etl_parent_flow' function as flow and named it with "Parameterized ETL"  
+#### Create deployment with cron
+```
+$ prefect deployment build flows/03_deployments/parameterized_flow.py:etl_parent_flow --cron "*/5 * * * *" -n "parameterized_with_cron"
+```  
+run flow every 5 minute  
+#### Apply deployment to server (local)
 ```
 prefect deployment apply etl_parent_flow-deployment.yaml
-```
-**start agent to execute the flow** (in case, our deployment in the "default" queue)
-
+```  
+#### Start agent to execute the flow 
+in case, our deployment in the "default" queue
 ```
 prefect agent start  --work-queue "default"
 ```
-
-**build an image**
+#### Build an image
 ```
 docker image build -t ersadul/prefect:zoom .
 ```
 
 ### Services
-**Start server**
+#### Start server
 ```
 prefect orion start
 ```
-**Start agent**
+#### Start agent
 ```
 prefect agent start -q "default"
 ```
 > agent listen every flow in "default" queue
 
-**Setting profile config**
+#### Setting profile config
 
 * use a local Orion API server
 ```
@@ -60,6 +67,7 @@ prefect config set PREFECT_API_URL="https://api.prefect.cloud/api/accounts/[ACCO
 ```
 
 </details>
+
 ### Data Lake (GCS)
 
 * What is a Data Lake
