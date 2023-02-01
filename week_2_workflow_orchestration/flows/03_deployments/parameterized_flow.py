@@ -7,8 +7,9 @@ from prefect.tasks import task_input_hash
 from datetime import timedelta
 
 
-# @task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
-@task(retries=3)
+
+# @task(retries=3)
+@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
 def fetch(dataset_url: str) -> pd.DataFrame:
     """Read taxi data from web into pandas DataFrame"""
     # if randint(0, 1) > 0:
@@ -40,7 +41,7 @@ def write_local(df: pd.DataFrame, color: str, dataset_file: str) -> Path:
 @task()
 def write_gcs(path: Path) -> None:
     """Upload local parquet file to GCS"""
-    # path = PurePosixPath(path)
+    path = PurePosixPath(path)
     gcs_block = GcsBucket.load("gcs-zoomcamp")
     gcs_block.upload_from_path(from_path=path, to_path=path)
     
@@ -68,6 +69,6 @@ def etl_parent_flow(
 
 if __name__ == "__main__":
     color = "yellow"
-    months = [1, 2, 3]
-    year = 2021
+    months = [2, 3]
+    year = 2019
     etl_parent_flow(months, year, color)

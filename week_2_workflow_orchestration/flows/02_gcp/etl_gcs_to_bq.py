@@ -6,22 +6,26 @@ from prefect_gcp import GcpCredentials
 
 
 @task(retries=3)
-def extract_from_gcs(color: str, year: int, month: int) -> Path:
+def extract_from_gcs(color: str, year: int, month: int) -> pd.DataFrame:
     """Download trip data from GCS"""
     gcs_path = f"data/{color}/{color}_tripdata_{year}-{month:02}.parquet"
     gcp_block = GcsBucket.load("gcs-zoomcamp")
     gcp_block.get_directory(from_path=gcs_path, local_path=f"./")
-    return Path(f"./{gcs_path}")
+    path = Path(f"./{gcs_path}")
 
-
-@task()
-def transform(path: Path) -> pd.DataFrame:
-    """Data cleaning example"""
     df = pd.read_parquet(path)
-    print(f"pre: missing passanger count: {df['passenger_count'].isna().sum()}")
-    df['passenger_count'].fillna(0, inplace=True)
-    print(f"post: missing passanger count: {df['passenger_count'].isna().sum()}")
+
     return df
+
+
+# @task()
+# def transform(path: Path) -> pd.DataFrame:
+#     """Data cleaning example"""
+#     df = pd.read_parquet(path)
+#     print(f"pre: missing passanger count: {df['passenger_count'].isna().sum()}")
+#     df['passenger_count'].fillna(0, inplace=True)
+#     print(f"post: missing passanger count: {df['passenger_count'].isna().sum()}")
+#     return df
 
 
 @task()
@@ -38,17 +42,26 @@ def write_bq(df: pd.DataFrame) -> None:
     )
 
 
-@flow()
-def etl_gcs_to_bq():
+@flow(log_prints=True)
+def etl_gcs_to_bq(color: str, year: int, month: int) -> int:
     """Main ETL flow to load data into BigQuery"""
-    color="yellow"
-    year=2021
-    month=1
-
-    path = extract_from_gcs(color, year, month)
-    df = transform(path)
+    df = extract_from_gcs(color, year, month)
     write_bq(df)
+    print(f"Rows transfered: {len(df)}")
 
+    return len(df)
+
+@flow(log_prints=True)
+def etl_parent_flow(color: str, year: int, month: list[int]) -> None:
+    total_rows=0
+
+    for month in months:
+        total_rows += etl_gcs_to_bq(color, year, month)
+
+    print(f"Total data being transfered into bigQuery is: {total_rows}")
 
 if __name__ == '__main__':
-    etl_gcs_to_bq()
+    color="yellow"
+    year=2019
+    months=[2, 3]
+    etl_parent_flow(color, year, months)
