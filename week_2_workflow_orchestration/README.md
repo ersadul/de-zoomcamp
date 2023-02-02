@@ -43,6 +43,10 @@ prefect agent start  --work-queue "default"
 ```
 docker image build -t ersadul/prefect:zoom .
 ```
+#### Run deployed flow with custom parameter
+```
+prefect deployment run etl-parent-flow/docker-flow -p "months=[1, 2]"
+```
 
 ### Services
 #### Start server
@@ -138,4 +142,4 @@ prefect config set PREFECT_API_URL="https://api.prefect.cloud/api/accounts/[ACCO
 [course repo](https://github.com/discdiver/prefect-zoomcamp) by Jeff Hale (Prefect instructor)
 
 ### Homework
-[link]() to my homework
+[link](../homework/week_2/homework.md) to my homework

@@ -9,7 +9,7 @@ Using the `etl_web_to_gcs.py` flow that loads taxi data into GCS as a guide, cre
 
 How many rows does that dataset have?
 
-* 447,770
+* 447,770 ✅
 * 766,792
 * 299,234
 * 822,132
@@ -21,7 +21,7 @@ Cron is a common scheduling specification for workflows.
 
 Using the flow in `etl_web_to_gcs.py`, create a deployment to run on the first of every month at 5am UTC. What’s the cron schedule for that?
 
-- `0 5 1 * *`
+- `0 5 1 * *` ✅
 - `0 0 5 1 *`
 - `5 * 1 0 *`
 - `* * 5 1 0`
@@ -41,7 +41,7 @@ Create a deployment for this flow to run in a local subprocess with local flow c
 
 Make sure you have the parquet data files for Yellow taxi data for Feb. 2019 and March 2019 loaded in GCS. Run your deployment to append this data to your BiqQuery table. How many rows did your flow code process?
 
-- 14,851,920
+- 14,851,920 ✅
 - 12,282,990
 - 27,235,753
 - 11,338,483
@@ -60,7 +60,7 @@ How many rows were processed by the script?
 
 - 88,019
 - 192,297
-- 88,605
+- 88,605 ✅
 - 190,225
 
 
@@ -91,7 +91,7 @@ How many rows were processed by the script?
 - `125,268`
 - `377,922`
 - `728,390`
-- `514,392`
+- `514,392` ✅
 
 
 ## Question 6. Secrets
@@ -100,5 +100,89 @@ Prefect Secret blocks provide secure, encrypted storage in the database and obfu
 
 - 5
 - 6
-- 8
+- 8 ✅
 - 10
+
+<details open>
+<summary>Answer</summary>
+#### Answer 1. Load January 2020 data
+```
+$ python flows/02_gcp/etl_web_to_gcs.py 
+22:45:47.787 | INFO    | prefect.engine - Created flow run 'attentive-goldfish' for flow 'etl-web-to-gcs'
+22:45:48.363 | INFO    | Flow run 'attentive-goldfish' - Created task run 'fetch-b4598a4a-0' for task 'fetch'
+...
+22:46:25.323 | INFO    | Task run 'clean-b9fd7e03-0' - rows: 447770
+...  
+22:46:36.240 | INFO    | Task run 'write_gcs-1145c921-0' - Finished in state Completed()
+22:46:36.407 | INFO    | Flow run 'attentive-goldfish' - Finished in state Completed('All states completed.')
+```
+#### Answer 2. Scheduling with Cron
+```
+$ prefect deployment build flows/02_gcp/etl_web_to_gcs.py:etl_web_to_gcs --cron "0 5 1 * *" -n "web_to_gcs_cron_homework" 
+```
+#### Answer 3. Loading data to BigQuery 
+Link into [file](../../week_2_workflow_orchestration/flows/02_gcp/etl_gcs_to_bq.py)
+```
+$ python flows/02_gcp/etl_gcs_to_bq.py 
+14:07:58.921 | INFO    | prefect.engine - Created flow run 'innocent-inchworm' for flow 'etl-parent-flow'
+14:07:59.291 | INFO    | Flow run 'innocent-inchworm' - Created subflow run 'solemn-flamingo' for flow 'etl-gcs-to-bq'
+...
+14:11:29.988 | INFO    | Flow run 'solemn-flamingo' - Rows transfered: 7019375
+14:11:30.094 | INFO    | Flow run 'solemn-flamingo' - Finished in state Completed()
+14:11:30.287 | INFO    | Flow run 'innocent-inchworm' - Created subflow run 'statuesque-octopus' for flow 'etl-gcs-to-bq'
+14:11:30.452 | INFO    | Flow run 'statuesque-octopus' - Created task run 'extract_from_gcs-968e3b65-0' for task 'extract_from_gcs'
+...
+14:15:49.847 | INFO    | Flow run 'statuesque-octopus' - Rows transfered: 7832545
+14:15:49.914 | INFO    | Flow run 'statuesque-octopus' - Finished in state Completed()
+14:15:49.916 | INFO    | Flow run 'innocent-inchworm' - Total data being transfered into bigQuery is: 14851920
+14:15:49.975 | INFO    | Flow run 'innocent-inchworm' - Finished in state Completed('All states completed.')
+```
+#### Answer 4. Github Storage Block
+I assume that what I do here is right, because when i try to build an flow from github like [this](https://github.com/PrefectHQ/prefect/pull/6598), it doesn't work.  
+It keep says that the directory or file not found  
+`Script at './week_2_workflow_orchestration/flows/02_gcp/etl_web_to_gcs.py' encountered an exceptio: FileNotFoundError(2, 'No such file or directory)`
+
+So I try using [this](https://github.com/anna-geller/prefect-deployment-patterns/blob/main/blocks/storage_blocks/public_github_repository.py) method, and this is the files look like [here](../../week_2_workflow_orchestration/blocks/week_2_workflow_orchestration/flows/02_gcp/etl_web_to_gcs.py)  
+
+My script:
+```
+$ prefect deployment build blocks/week_2_workflow_orchestration/flows/02_gcp/etl_web_to_gcs.py:etl_web_to_gcs -n "web_to_gcs_homework" --params='{"color":"green", "year":2020, "month":11}' -a
+```
+
+My output after run the flow:
+```
+22:48:59.408 | INFO    | prefect.agent - Submitting flow run 'a784a674-dbd1-4ca9-8a3a-f9263b705224'
+22:48:59.949 | INFO    | prefect.infrastructure.process - Opening process 'slick-kakapo'... 
+...
+22:51:54.587 | INFO    | Task run 'clean-2c6af9f6-0' - rows: 88605
+22:51:54.648 | INFO    | Task run 'clean-2c6af9f6-0' - Finished in state Completed()        
+...
+22:51:57.762 | INFO    | Flow run 'slick-kakapo' - Finished in state Completed('All states completed.')
+22:52:03.027 | INFO    | prefect.infrastructure.process - Process 'slick-kakapo' exited cleanly.
+```
+#### Answer 5. Email or Slack notifications
+Notification look like:
+```
+Prefect <no-reply@prefect.io>
+10.58 (8 menit yang lalu)
+kepada saya
+
+Flow run etl-web-to-gcs/sage-mule entered state `Completed` at 2023-02-02T03:58:26.800592+00:00.
+Flow ID: 935bad3b-3aa2-4c15-b2ea-5385a76e7d91
+Flow run ID: b0c2ea32-e763-4b88-b199-1b54256842cb
+Flow run URL: https://app.prefect.cloud/account/d97c7cf3-034b-42e3-98b1-847c000e7c48/workspace/8671f19b-9a00-4fd1-b96a-7458eab45ead/flow-runs/flow-run/b0c2ea32-e763-4b88-b199-1b54256842cb
+State message: All states completed.
+```
+Output:
+```
+10:57:23.320 | INFO    | prefect.agent - Submitting flow run 'b0c2ea32-e763-4b88-b199-1b54256842cb'
+10:57:24.720 | INFO    | prefect.infrastructure.process - Opening process 'sage-mule'...
+10:57:25.035 | INFO    | prefect.agent - Completed submission of flow run 'b0c2ea32-e763-4b88-b199-1b54256842cb'
+...
+10:58:13.515 | INFO    | Task run 'clean-2c6af9f6-0' - rows: 514392
+...
+10:58:27.340 | INFO    | Flow run 'sage-mule' - Finished in state Completed('All states completed.')
+10:58:32.290 | INFO    | prefect.infrastructure.process - Process 'sage-mule' exited cleanly.
+
+```
+</details>
