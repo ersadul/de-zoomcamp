@@ -104,8 +104,9 @@ Prefect Secret blocks provide secure, encrypted storage in the database and obfu
 - 10
 
 <details open>
-<summary>Answer</summary>
-#### Answer 1. Load January 2020 data
+<summary>Answer</summary>  
+
+#### Answer 1. Load January 2020 data  
 ```
 $ python flows/02_gcp/etl_web_to_gcs.py 
 22:45:47.787 | INFO    | prefect.engine - Created flow run 'attentive-goldfish' for flow 'etl-web-to-gcs'
@@ -136,8 +137,8 @@ $ python flows/02_gcp/etl_gcs_to_bq.py
 14:15:49.914 | INFO    | Flow run 'statuesque-octopus' - Finished in state Completed()
 14:15:49.916 | INFO    | Flow run 'innocent-inchworm' - Total data being transfered into bigQuery is: 14851920
 14:15:49.975 | INFO    | Flow run 'innocent-inchworm' - Finished in state Completed('All states completed.')
-```
-#### Answer 4. Github Storage Block
+```  
+#### Answer 4. Github Storage Block  
 I assume that what I do here is right, because when i try to build an flow from github like [this](https://github.com/PrefectHQ/prefect/pull/6598), it doesn't work.  
 It keep says that the directory or file not found  
 `Script at './week_2_workflow_orchestration/flows/02_gcp/etl_web_to_gcs.py' encountered an exceptio: FileNotFoundError(2, 'No such file or directory)`
