@@ -139,15 +139,15 @@ $ python flows/02_gcp/etl_gcs_to_bq.py
 14:15:49.975 | INFO    | Flow run 'innocent-inchworm' - Finished in state Completed('All states completed.')
 ```  
 #### Answer 4. Github Storage Block  
-I assume that what I do here is right, because when i try to build an flow from github like [this](https://github.com/PrefectHQ/prefect/pull/6598), it doesn't work.  
-It keep says that the directory or file not found  
-`Script at './week_2_workflow_orchestration/flows/02_gcp/etl_web_to_gcs.py' encountered an exceptio: FileNotFoundError(2, 'No such file or directory)`
-
-So I try using [this](https://github.com/anna-geller/prefect-deployment-patterns/blob/main/blocks/storage_blocks/public_github_repository.py) method, and this is the files look like [here](../../week_2_workflow_orchestration/blocks/week_2_workflow_orchestration/flows/02_gcp/etl_web_to_gcs.py)  
+this is a reference to run flow from github source code/script [here](https://github.com/PrefectHQ/prefect/pull/6598), 
+it doesn't work for me if I have very long path. So if you want to use github as remote storage, please simplify the path(its my own opinion tho)
 
 My script:
 ```
-$ prefect deployment build blocks/week_2_workflow_orchestration/flows/02_gcp/etl_web_to_gcs.py:etl_web_to_gcs -n "web_to_gcs_homework" --params='{"color":"green", "year":2020, "month":11}' -a
+prefect deployment build flows/etl_web_to_gcs.py:etl_web_to_gcs -n "github-sc-flow" \
+    --storage-block="github/ersadul-github-block" \
+    --params='{"color": "green", "months": [11], "year": "2020"}' \
+    --apply
 ```
 
 My output after run the flow:

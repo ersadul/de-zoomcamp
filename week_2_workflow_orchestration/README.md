@@ -30,6 +30,16 @@ deploy a flow with 'parameterized_flow.py' file to run 'etl_parent_flow' functio
 $ prefect deployment build flows/03_deployments/parameterized_flow.py:etl_parent_flow --cron "*/5 * * * *" -n "parameterized_with_cron"
 ```  
 run flow every 5 minute  
+#### Create deployment with github file as source code
+```
+prefect deployment build flows/etl_web_to_gcs.py:etl_web_to_gcs -n "github-sc-flow" \
+    --storage-block="github/ersadul-github-block" \
+    --params='{"color": "green", "months": [11], "year": "2020"}' \
+    --apply
+```
+> --storage-block: remote storage
+> --params: parameter that we want to pass into the flow
+> --apply: apply the flow into server
 #### Apply deployment to server (local)
 ```
 prefect deployment apply etl_parent_flow-deployment.yaml
@@ -61,11 +71,11 @@ prefect agent start -q "default"
 
 #### Setting profile config
 
-* use a local Orion API server
+* Use a local Orion API server
 ```
 prefect config set PREFECT_API_URL="http://127.0.0.1:4200/api"
 ```
-* use Prefect Cloud
+* Use Prefect Cloud
 ```
 prefect config set PREFECT_API_URL="https://api.prefect.cloud/api/accounts/[ACCOUNT-ID]/workspaces/[WORKSPACE-ID]"
 ```
