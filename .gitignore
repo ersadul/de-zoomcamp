@@ -1,0 +1,15 @@
+.env
+.venv
+env/
+venv/
+*__pycache__/
+.ipynb_checkpoints/
+
+*-deployment.yaml
+*.csv
+*.csv.gz
+*.parquet
+
+week_1_basics_n_setup/2_docker_sql/ny_taxi_postgres_data/
+week_2_workflow_orchestration/.prefectignore
+week_2_workflow_orchestration/note.md

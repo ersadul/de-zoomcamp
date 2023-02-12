@@ -7,7 +7,7 @@ Week 2: Workflow Orchestration
 * [Homework Prefect](week_2/homework.md)
 
 Week 3: Data Warehouse
-
+* [Homework BigQuery](week_3/homework.md)
 
 Week 4: Analytics Engineering
 

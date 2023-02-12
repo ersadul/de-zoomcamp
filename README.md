@@ -29,6 +29,19 @@
 
 [More details](week_2_workflow_orchestration/)
 
+### [Week 3: Data Warehouse](week_3_data_warehouse/)
+
+
+* Data Warehouse
+* BigQuery
+* Partitioning and clustering
+* BigQuery best practices
+* Internals of BigQuery
+* BigQuery Machine Learning
+* [Homework](homework/week_3/homework.md)
+
+[More details](week_3_data_warehouse/)
+
 ## Overview
 ### Architecture diagram
 <img src="https://raw.githubusercontent.com/DataTalksClub/data-engineering-zoomcamp/main/images/architecture/arch_2.png"/>
