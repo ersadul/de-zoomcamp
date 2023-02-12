@@ -1,7 +1,8 @@
+# Week-2
 Prepare all the tools we need like docker, postgre, pgadmin, and terraform to meet the prerequisite tools that we will use in this zoomcamp. in this zoomcamp we are using [ny_taxi data](https://github.com/DataTalksClub/nyc-tlc-data) as the main data source
 
 
-<details>
+<details open>
 <summary>Run services in google cloud VM</summary>
 
 **Links**:
