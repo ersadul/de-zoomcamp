@@ -61,7 +61,7 @@ Note: Column types for all files used in an External Table must have the same da
   
   
 <details open>
-<summary>SQL</summary>  
+<summary>Answers code</summary>  
 -- create external table
 CREATE OR REPLACE EXTERNAL TABLE `dte-de-375705.nytaxi.fhv_tripdata`
 OPTIONS (
