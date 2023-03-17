@@ -42,6 +42,20 @@
 
 [More details](week_3_data_warehouse/)
 
+### [Week 4: Analytics engineering](week_4_analytics_engineering/)
+
+* Basics of analytics engineering
+* dbt (data build tool)
+* BigQuery and dbt
+* Postgres and dbt
+* dbt models
+* Testing and documenting
+* Deployment to the cloud and locally
+* Visualizing the data with google data studio and metabase
+* [Homework](homework/week_4/homework.md)
+
+[More details](week_4_analytics_engineering/)
+
 ## Overview
 ### Architecture diagram
 <img src="https://raw.githubusercontent.com/DataTalksClub/data-engineering-zoomcamp/main/images/architecture/arch_2.png"/>

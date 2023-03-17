@@ -5,6 +5,7 @@ from prefect_gcp.cloud_storage import GcsBucket
 from random import randint
 from prefect.tasks import task_input_hash
 from datetime import timedelta
+import os
 
 
 # @task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
@@ -26,6 +27,8 @@ def clean(df: pd.DataFrame, color: str) -> pd.DataFrame:
     if (color == 'yellow'):
         df["tpep_pickup_datetime"] = pd.to_datetime(df["tpep_pickup_datetime"])
         df["tpep_dropoff_datetime"] = pd.to_datetime(df["tpep_dropoff_datetime"])
+        df['passenger_count'] = df['passenger_count'].astype('Int64')
+        
     
     # format for green color
     if (color == 'green'):
@@ -39,11 +42,17 @@ def clean(df: pd.DataFrame, color: str) -> pd.DataFrame:
     return df
 
 
-@task()
+@task(log_prints=True)
 def write_local(df: pd.DataFrame, color: str, dataset_file: str) -> Path:
     """Write DataFrame out locally as parquet file"""
-    
+    print('begin write local')
+    # check is directory exist
+    if not os.path.isdir(f"data/{color}"):
+        # if the directory is not present then create it.
+        os.makedirs(f"data/{color}")
+        
     path = Path(f"data/{color}/{dataset_file}.parquet")
+    print(path)
     df.to_parquet(path, compression="gzip")
     
     return path
@@ -69,12 +78,12 @@ def etl_web_to_gcs(year: int, month: int, color: str) -> None:
     df = fetch(dataset_url)
     df_clean = clean(df, color)
     path = write_local(df_clean, color, dataset_file)
-    write_gcs(path)
+    # write_gcs(path)
 
 
 @flow()
 def etl_parent_flow(
-    months: list[int] = [1, 2], year: int = 2021, color: str = "yellow"
+    months: list[int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], year: int = 2021, color: str = "yellow"
 ):
     for month in months:
         etl_web_to_gcs(year, month, color)

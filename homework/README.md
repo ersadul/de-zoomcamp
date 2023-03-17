@@ -10,7 +10,7 @@ Week 3: Data Warehouse
 * [Homework BigQuery](week_3/homework.md)
 
 Week 4: Analytics Engineering
-
+* [Homework BigQuery](week_4/homework.md)
 
 Week 5: Batch processing
 
