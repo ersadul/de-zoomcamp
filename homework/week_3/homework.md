@@ -58,45 +58,45 @@ A better format to store these files may be parquet. Create a data pipeline to d
 
 
 Note: Column types for all files used in an External Table must have the same datatype. While an External Table may be created and shown in the side panel in Big Query, this will need to be validated by running a count query on the External Table to check if any errors occur. 
-
+  
+  
 <details open>
-<summary>SQL</summary>
-```
+<summary>Answers code</summary>  
 -- create external table
 CREATE OR REPLACE EXTERNAL TABLE `dte-de-375705.nytaxi.fhv_tripdata`
 OPTIONS (
   format = 'parquet',
   uris = ['gs://gcs-bq-nytaxi/fhv/fhv_tripdata_2019-*.parquet']
 );
-
-DROP table IF EXISTS `dte-de-375705.nytaxi.fhv_tripdata`;
-
-select * from `dte-de-375705.nytaxi.fhv_tripdata` limit 1;
-
+  <br><br>  
+DROP table IF EXISTS `dte-de-375705.nytaxi.fhv_tripdata`;  
+  <br><br>
+select * from `dte-de-375705.nytaxi.fhv_tripdata` limit 1;  
+  <br><br>
 -- create non partition table
 CREATE OR REPLACE TABLE `dte-de-375705.nytaxi.fhv_nonpartitioned_tripdata`
-AS SELECT * FROM `dte-de-375705.nytaxi.fhv_tripdata`;
-
+AS SELECT * FROM `dte-de-375705.nytaxi.fhv_tripdata`;  
+  <br><br>
 -- create partition and cluster table 
 create or replace table `dte-de-375705.nytaxi.fhv_tripdata_partition_cluster`
 partition by date(pickup_datetime)
 cluster by Affiliated_base_number as 
-select * from `dte-de-375705.nytaxi.fhv_tripdata`
-
+select * from `dte-de-375705.nytaxi.fhv_tripdata`  
+  <br><br>
 -- q1
 select count(1) from `dte-de-375705.nytaxi.fhv_tripdata`;
-
+  <br><br>
 -- q2 
 -- non partitioned table 317.94 MB
 select distinct count(Affiliated_base_number) from `dte-de-375705.nytaxi.fhv_nonpartitioned_tripdata`;
 -- external table
 select distinct count(Affiliated_base_number) from `dte-de-375705.nytaxi.fhv_tripdata`;
-
+  <br><br>
 -- q3
 select COUNT(*) 
 from `dte-de-375705.nytaxi.fhv_tripdata` 
 where PUlocationID is NULL and DOlocationID is NULL
-
+  <br><br>
 -- q5
 -- non partitioned table 647.87 MB
 select distinct(affiliated_base_number)
@@ -105,6 +105,6 @@ where pickup_datetime between '2019-03-01' and '2019-03-31'
 -- partition table 23.05 MB
 select distinct(affiliated_base_number)
 from `dte-de-375705.nytaxi.fhv_tripdata_partition_cluster`
-where pickup_datetime between '2019-03-01' and '2019-03-31'
-```
+where pickup_datetime between '2019-03-01' and '2019-03-31' 
+  <br><br>
 </details>
