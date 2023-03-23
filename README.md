@@ -56,6 +56,17 @@
 
 [More details](week_4_analytics_engineering/)
 
+### [Week 5: Batch processing](week_5_batch_processing/)
+
+* Batch processing
+* What is Spark
+* Spark Dataframes
+* Spark SQL
+* Internals: GroupBy and joins
+* [Homework](homework/week_5/homework.md)
+
+[More details](week_5_batch_processing/)
+
 ## Overview
 ### Architecture diagram
 <img src="https://raw.githubusercontent.com/DataTalksClub/data-engineering-zoomcamp/main/images/architecture/arch_2.png"/>

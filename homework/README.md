@@ -13,7 +13,7 @@ Week 4: Analytics Engineering
 * [Homework dbt](week_4/homework.md)
 
 Week 5: Batch processing
-
+* [Homework Spark](week_5/homework.md)
 
 Week 6: Streaming
 
